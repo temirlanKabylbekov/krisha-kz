@@ -75,7 +75,7 @@ class FlatSpiderPipeline(BaseSpiderPipeline):
 
     def close_spider(self, pipeline, spider):
         if self.batch_data:
-            self.flush_to_db(pipeline)
+            self.flush_to_db(pipeline, spider)
 
 
 def SpiderPipeline(spider_name):

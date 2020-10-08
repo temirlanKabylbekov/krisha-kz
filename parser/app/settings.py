@@ -11,8 +11,6 @@ DB_PASSWORD = os.getenv('DB_PASSWORD')
 DB_NAME = os.getenv('DB_NAME')
 DB_BATCH_SIZE = os.getenv('DB_BATCH_SIZE')
 
-FLATS_PAGE_URL = os.getenv('FLATS_PAGE_URL')
-
 # scrapy framework settings
 BOT_NAME = 'app'
 

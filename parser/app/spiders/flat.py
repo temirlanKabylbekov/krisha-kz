@@ -1,13 +1,12 @@
 import scrapy
 from urllib.parse import urljoin
 
-from app import settings
 from app.items import FlatItem
 from app.utils import part_range
 
 WEBSITE_URL = 'https://krisha.kz'
 
-FLATS_PAGE_URL = settings.FLATS_PAGE_URL
+FLATS_PAGE_URL = 'https://krisha.kz/prodazha/kvartiry/pavlodar/'
 FLATS_PAGINATOR_MAX_PAGE_XPATH = '//a[contains(@class, "paginator__btn")][last() - 1]/@data-page'
 
 FLAT_URL_XPATH = '//a[contains(@class, "a-card__title")]/@href'
