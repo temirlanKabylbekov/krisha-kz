@@ -1,0 +1,4 @@
+CREATE TABLE flats (
+	title TEXT NOT NULL,
+	url VARCHAR (255) NOT NULL
+);

@@ -1,0 +1,30 @@
+version: "3.4"
+
+services:
+  parser:
+    build:
+      context: parser
+    volumes:
+      - .:/root
+    command: tail -f /dev/null
+    networks:
+      - krisha-kz
+
+  postgres:
+    build:
+      context: db
+    env_file:
+      - .env
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_HOST: ${DB_HOST}
+      POSTGRES_DB: ${DB_NAME}
+    ports:
+      - "${DB_PORT}:5432"
+    networks:
+      - krisha-kz
+
+networks:
+  krisha-kz:
+    driver: bridge
