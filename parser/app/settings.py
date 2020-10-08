@@ -11,6 +11,7 @@ DB_PASSWORD = os.getenv('DB_PASSWORD')
 DB_NAME = os.getenv('DB_NAME')
 DB_BATCH_SIZE = os.getenv('DB_BATCH_SIZE')
 
+FLATS_PAGE_URL = os.getenv('FLATS_PAGE_URL')
 
 # scrapy framework settings
 BOT_NAME = 'app'
@@ -22,18 +23,14 @@ ITEM_PIPELINES = {
     'app.pipelines.DatabasePipeline': 100,
 }
 
+LOG_FILE = 'log'
+LOG_LEVEL = 'INFO'
+
 DOWNLOADER_MIDDLEWARES = {
     'rotating_proxies.middlewares.RotatingProxyMiddleware': 100,
 }
 
 ROTATING_PROXY_LIST_PATH = 'proxies.txt'
-ROTATING_PROXY_LIST = [
-    "54.188.85.68:8888",
-    "18.237.80.51:8888",
-    "54.213.20.203:8888",
-    "18.236.139.255:8888",
-    "34.219.137.149:8888",
-]
 
 COOKIES_ENABLED = False
 DOWNLOAD_DELAY = 1

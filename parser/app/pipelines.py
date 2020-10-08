@@ -31,12 +31,12 @@ class DatabasePipeline:
         self.conn.close()
 
     def process_item(self, item, spider):
-        self.pipeline.process_item(self, item)
+        self.pipeline.process_item(self, item, spider)
         return item
 
 
 class BaseSpiderPipeline:
-    def process_item(self, pipeline, item):
+    def process_item(self, pipeline, item, spider):
         return
 
     def close_spider(self, pipeline, spider):
@@ -49,7 +49,7 @@ class FlatSpiderPipeline(BaseSpiderPipeline):
     def __init__(self):
         self.batch_data = []
 
-    def flush_to_db(self, pipeline):
+    def flush_to_db(self, pipeline, spider):
         with pipeline.conn.cursor() as cursor:
             values = ','.join([
                 str(
@@ -63,12 +63,14 @@ class FlatSpiderPipeline(BaseSpiderPipeline):
             cursor.execute(f'INSERT INTO flats(title, url) VALUES {values}')
             pipeline.conn.commit()
 
-    def process_item(self, pipeline, item):
+            spider.logger.info(f'loaded in database {len(self.batch_data)} flats by {getattr(spider, "part", "0")} instance')
+
+    def process_item(self, pipeline, item, spider):
         if len(self.batch_data) < pipeline.batch_size:
             self.batch_data.append(item)
             return
 
-        self.flush_to_db(pipeline)
+        self.flush_to_db(pipeline, spider)
         self.batch_data = []
 
     def close_spider(self, pipeline, spider):
