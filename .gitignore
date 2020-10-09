@@ -146,3 +146,8 @@ dmypy.json
 .idea
 .bash_history
 .python_history
+
+setup.py
+*.pid
+logs/
+dbs/
