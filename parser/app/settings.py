@@ -21,9 +21,6 @@ ITEM_PIPELINES = {
     'app.pipelines.DatabasePipeline': 100,
 }
 
-LOG_FILE = 'log'
-LOG_LEVEL = 'INFO'
-
 DOWNLOADER_MIDDLEWARES = {
     'rotating_proxies.middlewares.RotatingProxyMiddleware': 100,
 }

@@ -54,13 +54,14 @@ class FlatSpiderPipeline(BaseSpiderPipeline):
             values = ','.join([
                 str(
                     (
-                        item['title'],
-                        item['url']
+                        item.serialized_title,
+                        item.serialized_url,
+                        item.serialized_price
                     )
                 )
                 for item in self.batch_data
             ])
-            cursor.execute(f'INSERT INTO flats(title, url) VALUES {values}')
+            cursor.execute(f'INSERT INTO flats(title, url, price) VALUES {values}')
             pipeline.conn.commit()
 
             spider.logger.info(f'loaded in database {len(self.batch_data)} flats by {getattr(spider, "part", "0")} instance')

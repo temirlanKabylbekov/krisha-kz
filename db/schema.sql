@@ -1,4 +1,5 @@
 CREATE TABLE flats (
 	title TEXT NOT NULL,
-	url VARCHAR (255) NOT NULL
+	url VARCHAR (255) NOT NULL,
+	price NUMERIC(14,2)
 );

@@ -12,6 +12,7 @@ FLATS_PAGINATOR_MAX_PAGE_XPATH = '//a[contains(@class, "paginator__btn")][last()
 FLAT_URL_XPATH = '//a[contains(@class, "a-card__title")]/@href'
 
 FLAT_TITLE_XPATH = '//div[contains(@class, "offer__advert-title")]/h1/text()'
+FLAT_PRICE_XPATH = '//div[contains(@class, "offer__price")]/text()'
 
 
 class FlatSpider(scrapy.Spider):
@@ -37,5 +38,6 @@ class FlatSpider(scrapy.Spider):
             yield scrapy.Request(full_flat_url, self.parse_details, cb_kwargs={'item': FlatItem(url=full_flat_url)})
 
     def parse_details(self, response, item):
-        item['title'] = response.xpath(FLAT_TITLE_XPATH).get().strip()
+        item['title'] = response.xpath(FLAT_TITLE_XPATH).get()
+        item['price'] = response.xpath(FLAT_PRICE_XPATH).get()
         return item
