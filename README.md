@@ -2,7 +2,7 @@
 parsed krisha-kz
 
 # запуск
-- заполнить `.env` и `parser/app/.env`
+- заполнить `parser/app/.env` и `.env` (для локальной разработки)
 - заполнить `proxies.txt`
 - запустить сервер 
 ```sh 
