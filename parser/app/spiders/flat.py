@@ -2,6 +2,7 @@ import json
 import scrapy
 from urllib.parse import urljoin
 
+from app import settings
 from app.items import FlatItem
 from app.utils import get_nested_item, part_range
 
@@ -12,7 +13,7 @@ def get_main_description(property_name):
 
 WEBSITE_URL = 'https://krisha.kz'
 
-FLATS_PAGE_URL = 'https://krisha.kz/prodazha/kvartiry/pavlodar/'
+FLATS_PAGE_URL = settings.FLATS_PAGE_URL
 FLATS_PAGINATOR_MAX_PAGE_XPATH = '//a[contains(@class, "paginator__btn")][last() - 1]/@data-page'
 
 FLATS_URLS_XPATH = '//a[contains(@class, "a-card__title")]/@href'
@@ -58,7 +59,9 @@ class FlatSpider(scrapy.Spider):
         max_page = int(response.xpath(FLATS_PAGINATOR_MAX_PAGE_XPATH).get())
 
         for page in part_range(self.get_part(), self.get_total(), range(1, max_page + 1)):
-            yield scrapy.Request(f'{FLATS_PAGE_URL}?page={page}', self.parse_item)
+            url = f'{FLATS_PAGE_URL}?page={page}'
+            self.logger.warning(f'in page: {url}')
+            yield scrapy.Request(url, self.parse_item)
 
     def parse_item(self, response):
         urls = response.xpath(FLATS_URLS_XPATH).getall()

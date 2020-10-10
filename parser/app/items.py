@@ -34,14 +34,14 @@ class FlatItemSerializer(ItemSerializer):
     def __getattr__(self, attr):
         if attr == 'title':
             try:
-                return self.item['title'].strip()
+                return self.item['title'].strip() if self.item['title'] else None
             except Exception as e:
                 logger.error(f'{e} for {self.item} in field: {attr}')
                 return None
 
         if attr == 'region':
             try:
-                return self.item['region'].rstrip('_')
+                return self.item['region'].rstrip('_') if self.item['region'] else None
             except Exception as e:
                 logger.error(f'{e} for {self.item} in field: {attr}')
                 return None

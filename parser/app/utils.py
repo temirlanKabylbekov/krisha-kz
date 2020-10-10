@@ -1,3 +1,4 @@
+import logging
 import math
 from functools import reduce
 from operator import getitem
@@ -15,5 +16,5 @@ def get_nested_item(data, keys):
     try:
         return reduce(getitem, keys, data)
     except Exception as e:
-        print(e, 'TODO in serializer log')
+        logging.error(f'{e} for data: {data} and keys: {keys} in get_nested_item')
         return None

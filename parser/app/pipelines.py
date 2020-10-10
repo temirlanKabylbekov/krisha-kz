@@ -90,7 +90,7 @@ class FlatSpiderPipeline(BaseSpiderPipeline):
             cursor.execute(f'INSERT INTO {self.table_name} VALUES {values}')
             pipeline.conn.commit()
 
-            spider.logger.info(f'loaded in database {len(self.batch_data)} flats by {getattr(spider, "part", "0")} instance')
+            spider.logger.warning(f'loaded in database {len(self.batch_data)} flats by {getattr(spider, "part", "0")} instance')
 
     def process_item(self, pipeline, item, spider):
         if len(self.batch_data) < pipeline.batch_size:
