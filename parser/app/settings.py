@@ -1,4 +1,5 @@
 import os
+from datetime import date
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -10,6 +11,11 @@ DB_USER = os.getenv('DB_USER')
 DB_PASSWORD = os.getenv('DB_PASSWORD')
 DB_NAME = os.getenv('DB_NAME')
 DB_BATCH_SIZE = os.getenv('DB_BATCH_SIZE')
+TELEGRAM_TOKEN = os.getenv('TELEGRAM_TOKEN')
+TELEGRAM_CHAT_ID = os.getenv('TELEGRAM_CHAT_ID')
+
+FLAT_TABLE_NAME = lambda: f'flats_{date.today().strftime("%d_%m_%Y")}'
+
 
 # scrapy framework settings
 BOT_NAME = 'app'
