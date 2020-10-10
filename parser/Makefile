@@ -10,6 +10,9 @@ db:
 scrapyd:
 	sudo systemctl restart scrapyd.service
 
+scrapyd_stop:
+	sudo systemctl stop scrapyd.service
+
 crontab:
 	sudo service cron restart
 
