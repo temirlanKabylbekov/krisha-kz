@@ -12,4 +12,7 @@ def part_range(part, total, items):
 
 
 def get_nested_item(data, keys):
-    return reduce(getitem, keys, data)
+    try:
+        return reduce(getitem, keys, data)
+    except Exception as e:
+        return None
