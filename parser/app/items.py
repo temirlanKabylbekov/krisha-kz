@@ -81,7 +81,7 @@ class FlatItemSerializer(ItemSerializer):
 
         if attr == 'ceiling_height':
             try:
-                return int(self.item['ceiling_height'].split(' ')[0])
+                return int(self.item['ceiling_height'].split(' ')[0]) if self.item['ceiling_height'] else None
             except Exception as e:
                 logger.error(f'{e} for {self.item} in field: {attr}')
                 return None
