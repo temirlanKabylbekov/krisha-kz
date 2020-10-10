@@ -33,10 +33,18 @@ MONTHS_MAP = {
 class FlatItemSerializer(ItemSerializer):
     def __getattr__(self, attr):
         if attr == 'title':
-            return self.item['title'].strip()
+            try:
+                return self.item['title'].strip()
+            except Exception as e:
+                logger.error(f'{e} for {self.item} in field: {attr}')
+                return None
 
         if attr == 'region':
-            return self.item['region'].rstrip('_')
+            try:
+                return self.item['region'].rstrip('_')
+            except Exception as e:
+                logger.error(f'{e} for {self.item} in field: {attr}')
+                return None
 
         if attr == 'flat_floor':
             try:
