@@ -1,5 +1,6 @@
 import os
-from datetime import date
+import pytz
+from datetime import datetime
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -14,8 +15,9 @@ DB_BATCH_SIZE = os.getenv('DB_BATCH_SIZE')
 TELEGRAM_TOKEN = os.getenv('TELEGRAM_TOKEN')
 TELEGRAM_CHAT_ID = os.getenv('TELEGRAM_CHAT_ID')
 
-FLAT_TABLE_NAME = lambda: f'flats_{date.today().strftime("%d_%m_%Y")}'
+TIMEZONE = 'Asia/Almaty'
 
+FLAT_TABLE_NAME = lambda: f'flats_{datetime.now(pytz.timezone(TIMEZONE)).strftime("%d_%m_%Y")}'
 
 # scrapy framework settings
 BOT_NAME = 'app'

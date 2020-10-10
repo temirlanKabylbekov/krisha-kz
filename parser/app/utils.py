@@ -15,4 +15,5 @@ def get_nested_item(data, keys):
     try:
         return reduce(getitem, keys, data)
     except Exception as e:
+        print(e, 'TODO in serializer log')
         return None
