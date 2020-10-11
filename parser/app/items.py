@@ -32,38 +32,39 @@ MONTHS_MAP = {
 
 class FlatItemSerializer(ItemSerializer):
     def __getattr__(self, attr):
+        if getitem(self.item, attr) is None:
+            return None
+
         if attr == 'title':
             try:
-                return self.item['title'].strip() if self.item['title'] else None
+                return self.item['title'].strip()
             except Exception as e:
                 logger.error(f'{e} for {self.item} in field: {attr}')
                 return None
 
         if attr == 'region':
             try:
-                return self.item['region'].rstrip('_') if self.item['region'] else None
+                return self.item['region'].rstrip('_')
             except Exception as e:
                 logger.error(f'{e} for {self.item} in field: {attr}')
                 return None
 
         if attr == 'flat_floor':
             try:
-                return int(self.item['flat_floor'].split('из')[0].strip()) if self.item['flat_floor'] else None
+                return int(self.item['flat_floor'].split('из')[0].strip())
             except Exception as e:
                 logger.error(f'{e} for {self.item} in field: {attr}')
                 return None
 
         if attr == 'floors_count':
             try:
-                return int(self.item['floors_count'].split('из')[-1].strip()) if self.item['floors_count'] else None
+                return int(self.item['floors_count'].split('из')[-1].strip())
             except Exception as e:
                 logger.error(f'{e} for {self.item} in field: {attr}')
                 return None
 
         if attr == 'wall_type':
             try:
-                if not self.item['wall_type']:
-                    return None
                 raw = self.item['wall_type'].split(',')[0]
                 return raw if 'г.п.' not in raw else None
             except Exception as e:
@@ -72,8 +73,6 @@ class FlatItemSerializer(ItemSerializer):
 
         if attr == 'construction_year':
             try:
-                if not self.item['construction_year']:
-                    return None
                 raw = self.item['construction_year'].split(',')
                 if len(raw) == 2:
                     return raw[1].strip().split(' ')[0]
@@ -85,8 +84,6 @@ class FlatItemSerializer(ItemSerializer):
 
         if attr == 'pub_date':
             try:
-                if not self.item['pub_date']:
-                    return None
                 day, month = self.item['pub_date'].strip().split()
                 return datetime.date(day=int(day), month=MONTHS_MAP[month], year=datetime.date.today().year)
             except Exception as e:
@@ -95,7 +92,7 @@ class FlatItemSerializer(ItemSerializer):
 
         if attr == 'ceiling_height':
             try:
-                return float(self.item['ceiling_height'].split(' ')[0]) if self.item['ceiling_height'] else None
+                return float(self.item['ceiling_height'].split(' ')[0])
             except Exception as e:
                 logger.error(f'{e} for {self.item} in field: {attr}')
                 return None
