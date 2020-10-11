@@ -6,7 +6,7 @@ from functools import lru_cache
 from app import settings
 
 
-@lru_cache
+@lru_cache(maxsize=None)
 def get_client():
     if not settings.TELEGRAM_NOTIFICATIONS:
         return None
