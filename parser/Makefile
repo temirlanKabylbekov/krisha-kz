@@ -28,3 +28,6 @@ scrapyd_client:
 	scrapyd-client schedule -p default --arg part=2 --arg total=5 flat_spider
 	scrapyd-client schedule -p default --arg part=3 --arg total=5 flat_spider
 	scrapyd-client schedule -p default --arg part=4 --arg total=5 flat_spider
+
+scrapyd_deploy:
+	scrapyd-deploy

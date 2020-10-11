@@ -75,7 +75,7 @@ class FlatItemSerializer(ItemSerializer):
             try:
                 raw = self.item['construction_year'].split(',')
                 if len(raw) == 2:
-                    return raw[1].strip().split(' ')[0]
+                    return int(raw[1].strip().split(' ')[0])
                 if 'г.п.' in raw[0]:
                     return int(raw[0].split(' ')[0])
             except Exception as e:

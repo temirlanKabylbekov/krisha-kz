@@ -61,7 +61,7 @@ class FlatSpider(scrapy.Spider):
 
         for page in part_range(self.get_part(), self.get_total(), range(1, max_page + 1)):
             url = f'{FLATS_PAGE_URL}?page={page}'
-            self.logger.warning(f'in page: {url}')
+            self.logger.warning(f'in page: {url} by {self.get_part()} instance')
             yield scrapy.Request(url, self.parse_item)
 
     def parse_item(self, response):
