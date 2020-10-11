@@ -16,6 +16,7 @@ TELEGRAM_TOKEN = os.getenv('TELEGRAM_TOKEN')
 TELEGRAM_CHAT_ID = os.getenv('TELEGRAM_CHAT_ID')
 TIMEZONE = os.getenv('TIMEZONE')
 FLATS_PAGE_URL = os.getenv('FLATS_PAGE_URL')
+TELEGRAM_NOTIFICATIONS = os.getenv('TELEGRAM_NOTIFICATIONS') == 'on'
 
 FLAT_TABLE_NAME = lambda: f'flats_{datetime.now(pytz.timezone(TIMEZONE)).strftime("%d_%m_%Y")}'
 

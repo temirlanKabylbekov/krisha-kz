@@ -87,8 +87,13 @@ class FlatSpiderPipeline(BaseSpiderPipeline):
             format = ','.join(['%s'] * len(values[0]))
             values = ','.join(cursor.mogrify(f'({format})', x).decode('utf-8') for x in values)
 
-            cursor.execute(f'INSERT INTO {self.table_name} VALUES {values}')
-            pipeline.conn.commit()
+            try:
+                cursor.execute(f'INSERT INTO {self.table_name} VALUES {values}')
+                pipeline.conn.commit()
+            except Exception as e:
+                spider.logger.error(f'{e} database error')
+                pipeline.conn.rollback()
+                return
 
             spider.logger.warning(f'loaded in database {len(self.batch_data)} flats by {getattr(spider, "part", "0")} instance')
 

@@ -84,6 +84,8 @@ class FlatItemSerializer(ItemSerializer):
 
         if attr == 'pub_date':
             try:
+                if not self.item['pub_date'].strip():
+                    return None
                 day, month = self.item['pub_date'].strip().split()
                 return datetime.date(day=int(day), month=MONTHS_MAP[month], year=datetime.date.today().year)
             except Exception as e:

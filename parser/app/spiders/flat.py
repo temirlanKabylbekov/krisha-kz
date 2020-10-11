@@ -1,4 +1,4 @@
-import json
+import chompjs
 import scrapy
 from urllib.parse import urljoin
 
@@ -29,7 +29,8 @@ BUILDING_FLOORS_COUNT_XPATH = get_main_description('flat.floor')
 FLAT_CEILING_HEIGHT_XPATH = get_main_description('ceiling')
 FLAT_FLOOR_XPATH = get_main_description('flat.floor')
 
-SCRIPT_OBJ_XPATH = 'substring-before(substring-after(//*[@id="jsdata"]/text(), "var data = "), ";")'
+# SCRIPT_OBJ_XPATH = 'substring-before(substring-after(//*[@id="jsdata"]/text(), "var data = "), ";")'
+SCRIPT_OBJ_CSS = 'script::text'
 FLAT_KRISHA_ID_KEY = ['advert', 'id']
 FLAT_LONGITUDE_KEY = ['advert', 'map', 'lon']
 FLAT_ATTITUDE_KEY = ['advert', 'map', 'lat']
@@ -73,7 +74,12 @@ class FlatSpider(scrapy.Spider):
             yield scrapy.Request(full_flat_url, self.parse_details, cb_kwargs={'item': item})
 
     def parse_details(self, response, item):
-        script_obj = json.loads(response.xpath(SCRIPT_OBJ_XPATH).get())
+        # script_obj = json.loads(response.xpath(SCRIPT_OBJ_XPATH).get())
+        try:
+            script_obj = chompjs.parse_js_object(response.css(SCRIPT_OBJ_CSS).get())
+        except Exception as e:
+            self.logger.error(f'{e} when script object parsing')
+            return
 
         item['krisha_id'] = get_nested_item(script_obj, FLAT_KRISHA_ID_KEY)
         item['title'] = response.xpath(FLAT_TITLE_XPATH).get()
