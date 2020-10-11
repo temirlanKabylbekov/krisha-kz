@@ -1,6 +1,4 @@
 import os
-import pytz
-from datetime import datetime
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -18,7 +16,30 @@ TIMEZONE = os.getenv('TIMEZONE')
 FLATS_PAGE_URL = os.getenv('FLATS_PAGE_URL')
 TELEGRAM_NOTIFICATIONS = os.getenv('TELEGRAM_NOTIFICATIONS') == 'on'
 
-FLAT_TABLE_NAME = lambda: f'flats_{datetime.now(pytz.timezone(TIMEZONE)).strftime("%d_%m_%Y")}'
+FLATS_URLS = [
+    'https://krisha.kz/prodazha/kvartiry/almaty/',
+    'https://krisha.kz/prodazha/kvartiry/vostochno-kazahstanskaja-oblast/',
+    'https://krisha.kz/prodazha/kvartiry/nur-sultan/',
+    'https://krisha.kz/prodazha/kvartiry/shymkent/',
+    'https://krisha.kz/prodazha/kvartiry/akmolinskaja-oblast/',
+    'https://krisha.kz/prodazha/kvartiry/aktjubinskaja-oblast/',
+    'https://krisha.kz/prodazha/kvartiry/almatinskaja-oblast/',
+    'https://krisha.kz/prodazha/kvartiry/atyrauskaja-oblast/',
+    'https://krisha.kz/prodazha/kvartiry/zhambylskaja-oblast/',
+    'https://krisha.kz/prodazha/kvartiry/zapadno-kazahstanskaja-oblast/',
+    'https://krisha.kz/prodazha/kvartiry/karagandinskaja-oblast/',
+    'https://krisha.kz/prodazha/kvartiry/kostanajskaja-oblast/',
+    'https://krisha.kz/prodazha/kvartiry/kyzylordinskaja-oblast/',
+    'https://krisha.kz/prodazha/kvartiry/mangistauskaja-oblast/',
+    'https://krisha.kz/prodazha/kvartiry/pavlodarskaja-oblast/',
+    'https://krisha.kz/prodazha/kvartiry/severo-kazahstanskaja-oblast/',
+    'https://krisha.kz/prodazha/kvartiry/juzhno-kazahstanskaja-oblast/'
+]
+if FLATS_PAGE_URL:
+    FLATS_URLS = [FLATS_PAGE_URL]
+
+
+FLAT_TABLE_NAME = os.getenv('TABLE_NAME')
 
 # scrapy framework settings
 BOT_NAME = 'app'

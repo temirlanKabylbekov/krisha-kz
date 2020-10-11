@@ -1,4 +1,6 @@
 import psycopg2
+import pytz
+from datetime import datetime
 
 from app import settings
 from app.items import FlatItemSerializer
@@ -55,7 +57,8 @@ class FlatSpiderPipeline(BaseSpiderPipeline):
 
     def __init__(self):
         self.batch_data = []
-        self.table_name = settings.FLAT_TABLE_NAME()
+        self.table_name = settings.FLAT_TABLE_NAME
+        self.current_date = datetime.now(pytz.timezone(settings.TIMEZONE)).date()
 
     def flush_to_db(self, pipeline, spider):
         with pipeline.conn.cursor() as cursor:
@@ -80,7 +83,8 @@ class FlatSpiderPipeline(BaseSpiderPipeline):
                     item.construction_year,
                     item.floors_count,
                     item.wall_type,
-                    item.seller_user_type
+                    item.seller_user_type,
+                    self.current_date
                 )
                 for item in self.batch_data
             ]
@@ -110,40 +114,12 @@ class FlatSpiderPipeline(BaseSpiderPipeline):
             self.flush_to_db(pipeline, spider)
 
         with pipeline.conn.cursor() as cursor:
-            cursor.execute(f'SELECT COUNT(*) FROM {self.table_name}')
+            cursor.execute(f'SELECT COUNT(*) FROM {self.table_name} WHERE parsed_date = %s', (self.current_date,))
             flats_count = cursor.fetchone()[0]
 
-        send_message(f'успешно завершен {spider.get_part() + 1}-ый паук из {spider.get_total()}')
         send_message(f'на момент завершения {spider.get_part() + 1}-го паука в таблице {self.table_name} {flats_count} квартир(ы)')
 
     def open_spider(self, pipeline, spider):
-        with pipeline.conn.cursor() as cursor:
-            cursor.execute(f'''
-                DROP TABLE IF EXISTS {self.table_name};
-                CREATE TABLE {self.table_name} (
-                    krisha_id INT,
-                    title TEXT,
-                    url VARCHAR (255),
-                    pub_date DATE,
-                    views_count INT,
-                    seller_phone VARCHAR (255),
-                    price NUMERIC(14,2),
-                    rooms_count INT,
-                    total_area NUMERIC(14,2),
-                    ceiling_height NUMERIC(14,2),
-                    region VARCHAR (255),
-                    city VARCHAR (255),
-                    address TEXT,
-                    flat_floor INT,
-                    longitude NUMERIC(14,8),
-                    attitude NUMERIC(14,8),
-                    construction_year INT,
-                    floors_count INT,
-                    wall_type VARCHAR (255),
-                    seller_user_type VARCHAR (255)
-                )
-            ''')
-            pipeline.conn.commit()
         send_message(f'запущен {spider.get_part() + 1}-ый паук из {spider.get_total()}')
 
 

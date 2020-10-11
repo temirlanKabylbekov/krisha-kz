@@ -18,5 +18,6 @@ CREATE TABLE flats (
 	construction_year INT,
 	floors_count INT,
 	wall_type VARCHAR (255),
-	seller_user_type VARCHAR (255)
+	seller_user_type VARCHAR (255),
+	parsed_date DATE
 );

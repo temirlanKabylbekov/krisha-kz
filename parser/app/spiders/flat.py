@@ -13,7 +13,7 @@ def get_main_description(property_name):
 
 WEBSITE_URL = 'https://krisha.kz'
 
-FLATS_PAGE_URL = settings.FLATS_PAGE_URL
+FLATS_URLS = settings.FLATS_URLS
 FLATS_PAGINATOR_MAX_PAGE_XPATH = '//a[contains(@class, "paginator__btn")][last() - 1]/@data-page'
 
 FLATS_URLS_XPATH = '//a[contains(@class, "a-card__title")]/@href'
@@ -47,7 +47,8 @@ class FlatSpider(scrapy.Spider):
     name = 'flat_spider'
 
     def start_requests(self):
-        yield scrapy.Request(FLATS_PAGE_URL)
+        for url in FLATS_URLS:
+            yield scrapy.Request(url)
 
     def get_part(self):
         """Номер интанса при распределенном парсинге"""
@@ -60,7 +61,7 @@ class FlatSpider(scrapy.Spider):
         max_page = int(response.xpath(FLATS_PAGINATOR_MAX_PAGE_XPATH).get())
 
         for page in part_range(self.get_part(), self.get_total(), range(1, max_page + 1)):
-            url = f'{FLATS_PAGE_URL}?page={page}'
+            url = f'{response.url.split("?")[0]}?page={page}'
             self.logger.warning(f'in page: {url} by {self.get_part()} instance')
             yield scrapy.Request(url, self.parse_item)
 
