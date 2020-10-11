@@ -77,7 +77,7 @@ class FlatItemSerializer(ItemSerializer):
                 if len(raw) == 2:
                     return raw[1].strip().split(' ')[0]
                 if 'г.п.' in raw[0]:
-                    return raw[0].split(' ')[0]
+                    return int(raw[0].split(' ')[0])
             except Exception as e:
                 logger.error(f'{e} for {self.item} in field: {attr}')
                 return None
