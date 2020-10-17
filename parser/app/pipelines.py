@@ -84,8 +84,8 @@ class FlatSpiderPipeline(BaseSpiderPipeline):
                     item.floors_count,
                     item.wall_type,
                     item.seller_user_type,
-                    item.description,
-                    self.current_date
+                    self.current_date,
+                    item.description
                 )
                 for item in self.batch_data
             ]

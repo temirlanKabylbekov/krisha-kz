@@ -19,6 +19,6 @@ CREATE TABLE flats (
 	floors_count INT,
 	wall_type VARCHAR (255),
 	seller_user_type VARCHAR (255),
-	description TEXT,
-	parsed_date DATE
+	parsed_date DATE,
+	description TEXT
 );
