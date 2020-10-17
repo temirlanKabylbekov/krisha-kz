@@ -120,6 +120,7 @@ class FlatItem(scrapy.Item):
     rooms_count = scrapy.Field()
     total_area = scrapy.Field()
     ceiling_height = scrapy.Field()
+    description = scrapy.Field()
 
     # расположение
     region = scrapy.Field()
