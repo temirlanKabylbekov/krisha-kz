@@ -21,7 +21,7 @@ FLATS_PUB_DATES_XPATH = '//div[contains(@class, "card-stats")]/div[2]/text()'
 
 FLAT_TITLE_XPATH = '//div[contains(@class, "offer__advert-title")]/h1/text()'
 FLAT_PRICE_XPATH = '//div[contains(@class, "offer__price")]/text()'
-FLAT_DESCRIPTION_XPATH = '//div[contains(@class, "offer__description")]/div[2]/div[2]/text()'
+FLAT_DESCRIPTION_XPATH = '//div[contains(@class, "offer__description")]/div[2]/div[contains(@class, "a-text-white-spaces")]/text()'
 
 BUILDING_WALL_TYPE_XPATH = get_main_description('flat.building')
 BUILDING_CONSTRUCTION_YEAR_XPATH = get_main_description('flat.building')
@@ -101,6 +101,6 @@ class FlatSpider(scrapy.Spider):
         item['floors_count'] = response.xpath(BUILDING_FLOORS_COUNT_XPATH).get()
         item['wall_type'] = response.xpath(BUILDING_WALL_TYPE_XPATH).get()
         item['seller_user_type'] = get_nested_item(script_obj, FLAT_SELLER_USER_TYPE_KEY)
-        item['description'] = response.xpath(FLAT_DESCRIPTION_XPATH).get()
+        item['description'] = response.xpath(FLAT_DESCRIPTION_XPATH).getall()
 
         return item

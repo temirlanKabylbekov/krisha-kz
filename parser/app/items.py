@@ -100,6 +100,9 @@ class FlatItemSerializer(ItemSerializer):
                 logger.error(f'{e} for {self.item} in field: {attr}')
                 return None
 
+        if attr == 'description':
+            return ' '.join(self.item['description'])
+
         return getitem(self.item, attr)
 
 
